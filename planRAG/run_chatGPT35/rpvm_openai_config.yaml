@@ -1,0 +1,68 @@
+# RPVM方法OpenAI实验配置文件（重构版）
+# 使用 wiki18 小语料库 + ChatGPT-3.5 API
+# 重构后使用GPT35风格的prompts
+
+# ========== 基本设置 ==========
+data_dir: "datasets"  # 数据集目录
+save_dir: "output/rpvm_openai_experiments"
+seed: 2024
+save_intermediate_data: True
+save_note: "rpvm_gpt35_refactored"
+gpu_id: "0"
+
+# ========== 数据集设置 ==========
+dataset_name: "2wikimultihopqa"
+split: ["dev"]  # 使用dev集
+
+# ========== 检索器设置 (E5) ==========
+retrieval_method: "e5"
+retrieval_model_path: "/home/algroup/lsw/planRAG/planRAG/e5-base-v2"  # E5模型路径（本地）
+index_path: "indexes/wiki18_100w_index_sq8/e5_SQ8.index"
+corpus_path: "indexes/wiki18_100w.jsonl"
+retrieval_topk: 1
+retrieval_batch_size: 32
+retrieval_use_fp16: True
+use_reranker: False
+save_retrieval_cache: True
+use_retrieval_cache: False
+
+# ========== 生成器设置 (OpenAI API) ==========
+framework: "openai"  # 使用 OpenAI API
+generator_model: "gpt-3.5-turbo"  # 模型名称
+generator_max_input_len: 4096
+generator_batch_size: 1
+generation_params:
+  max_tokens: 512
+  temperature: 0.7
+  top_p: 0.9
+
+# ========== RPVM特定参数（重构版）============
+rpvm_config:
+  # 核心参数
+  max_iter: 3  # 最大迭代次数（重构后建议3-5次，Planner每次可生成多个plan）
+  max_retrieval_attempts: 1  # 每个plan的最大检索尝试次数
+  retrieval_topk: 2  # 每次检索返回的文档数
+
+  # Prompt风格设置
+  prompt_dir: "GPT35"  # 使用重构后的GPT35风格prompts
+                        # 可选值: "GPT35" (重构版) 或 "openai" (原版)
+
+  # Memory设置
+  memory_max_tokens: 3000  # 记忆的最大token数
+  enable_memory_summary: True  # 是否启用记忆摘要
+
+  # 温度参数
+  planner_temperature: 0.3  # 规划器的温度参数
+  verifier_temperature: 0.3  # 验证器的温度参数
+  final_answer_temperature: 0.5  # 最终答案生成的温度参数
+
+# ========== 评估设置 ==========
+metrics: ["f1", "acc"]
+metric_setting:
+  retrieval_recall_topk: 5
+save_metric_score: True
+
+# ========== 其他设置 ==========
+use_fid: False
+refiner_name: null
+silent_retrieval: False

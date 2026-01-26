@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="algroup" createEmptyFolders="true">
+    <serverData>
+      <paths name="algroup">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/algroup/lsw/planrag" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/home/algroup/lsw/planrag/RPVM/datasets" />
+            <excludedPath path="/home/algroup/lsw/planrag/RPVM/e5-base-v2" />
+            <excludedPath path="/home/algroup/lsw/planrag/RPVM/indexes" />
+            <excludedPath path="/home/algroup/lsw/planrag/RPVM/llama3-8b-instruct" />
+            <excludedPath path="/home/algroup/lsw/planrag/RPVM/qwen3-8b" />
+            <excludedPath path="/home/algroup/lsw/planrag/planRAG/datasets" />
+            <excludedPath path="/home/algroup/lsw/planrag/planRAG/e5-base-v2" />
+            <excludedPath path="/home/algroup/lsw/planrag/planRAG/indexes" />
+            <excludedPath path="/home/algroup/lsw/planrag/planRAG/llama3-8b-instruct" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

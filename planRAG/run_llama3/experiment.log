@@ -1,0 +1,164 @@
+nohup: ignoring input
+`torch_dtype` is deprecated! Use `dtype` instead!
+数据集目录: /home/algroup/lsw/RPVM/RPVM/datasets
+数据集路径: /home/algroup/lsw/RPVM/RPVM/datasets/2wikimultihopqa
+索引路径: /home/algroup/lsw/RPVM/RPVM/indexes/wiki18_100w_index_sq8/e5_SQ8.index
+语料库路径: /home/algroup/lsw/RPVM/RPVM/indexes/wiki18_100w.jsonl
+输出目录: /home/algroup/lsw/RPVM/RPVM/output/rpvm_hf_experiments/2wikimultihopqa_2026_01_26_17_28_rpvm_llama3_hf_dev
+生成器框架: hf
+生成器模型: llama3-8b-instruct
+生成器模型路径: /home/algroup/lsw/RPVM/RPVM/llama3-8b-instruct
+加载数据集: 2wikimultihopqa, split: dev
+Loading dev datasets from: /home/algroup/lsw/RPVM/RPVM/datasets/2wikimultihopqa/dev.jsonl...
+all_split 类型: <class 'dict'>
+原始数据集大小: 12576
+仅使用 5 个样本进行测试
+Load data from provided data
+最终数据集大小: 5
+正在初始化 RPVM Pipeline (使用本地 HF Llama 3)...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.57s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.58s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.58s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.10s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.28s/it]
+开始运行 RPVM 实验...
+RPVM Processing:   0%|          | 0/5 [00:00<?, ?it/s]
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:01<00:00,  1.12s/it][AGeneration process: 100%|██████████| 1/1 [00:01<00:00,  1.12s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  1.08it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  1.08it/s]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][A
+Encoding process: 100%|██████████| 1/1 [00:02<00:00,  2.29s/it][AEncoding process: 100%|██████████| 1/1 [00:02<00:00,  2.29s/it]
+Use `query: ` as retreival instruction
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:03<00:00,  3.99s/it][AGeneration process: 100%|██████████| 1/1 [00:03<00:00,  3.99s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 12.08it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  1.27it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  1.27it/s]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 57.88it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:02<00:00,  2.73s/it][AGeneration process: 100%|██████████| 1/1 [00:02<00:00,  2.73s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 11.84it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  3.04it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  3.04it/s]
+RPVM Processing:  20%|██        | 1/5 [00:25<01:42, 25.58s/it]
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 14.10it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  6.23it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  6.22it/s]
+RPVM Processing:  40%|████      | 2/5 [00:25<00:32, 10.67s/it]
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 14.16it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:01<00:00,  1.26s/it][AGeneration process: 100%|██████████| 1/1 [00:01<00:00,  1.26s/it]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 81.12it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:04<00:00,  4.18s/it][AGeneration process: 100%|██████████| 1/1 [00:04<00:00,  4.18s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 12.28it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  4.84it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  4.83it/s]
+RPVM Processing:  60%|██████    | 3/5 [00:37<00:22, 11.22s/it]
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 13.80it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:01<00:00,  1.14s/it][AGeneration process: 100%|██████████| 1/1 [00:01<00:00,  1.14s/it]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 64.56it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:02<00:00,  2.82s/it][AGeneration process: 100%|██████████| 1/1 [00:02<00:00,  2.82s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 12.99it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  1.09it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  1.09it/s]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 49.86it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:04<00:00,  4.05s/it][AGeneration process: 100%|██████████| 1/1 [00:04<00:00,  4.05s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 10.78it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  1.88it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  1.88it/s]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 71.74it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:02<00:00,  2.19s/it][AGeneration process: 100%|██████████| 1/1 [00:02<00:00,  2.19s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  2.68it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  2.68it/s]
+RPVM Processing:  80%|████████  | 4/5 [01:02<00:16, 16.48s/it]
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 14.33it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  1.76it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  1.76it/s]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 78.99it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:02<00:00,  2.23s/it][AGeneration process: 100%|██████████| 1/1 [00:02<00:00,  2.23s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 13.49it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  2.57it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  2.56it/s]
+
+Encoding process:   0%|          | 0/1 [00:00<?, ?it/s][AEncoding process: 100%|██████████| 1/1 [00:00<00:00, 62.96it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:03<00:00,  3.42s/it][AGeneration process: 100%|██████████| 1/1 [00:03<00:00,  3.42s/it]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+Generation process: 100%|██████████| 1/1 [00:00<00:00, 11.96it/s]
+
+Generation process:   0%|          | 0/1 [00:00<?, ?it/s][ASetting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+
+Generation process: 100%|██████████| 1/1 [00:00<00:00,  4.72it/s][AGeneration process: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s]
+RPVM Processing: 100%|██████████| 5/5 [01:19<00:00, 16.61s/it]RPVM Processing: 100%|██████████| 5/5 [01:19<00:00, 15.81s/it]
+Intermediate data saved to: /home/algroup/lsw/RPVM/RPVM/output/rpvm_hf_experiments/2wikimultihopqa_2026_01_26_17_28_rpvm_llama3_hf_dev/intermediate_data.jsonl
+{'f1': 0.5454545454545454, 'acc': 0.6}
+实验完成！
+结果保存到: /home/algroup/lsw/RPVM/RPVM/output/rpvm_hf_experiments/2wikimultihopqa_2026_01_26_17_28_rpvm_llama3_hf_dev
