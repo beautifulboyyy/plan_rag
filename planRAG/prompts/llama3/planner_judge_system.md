@@ -1,1 +1,0 @@
-Judging based solely on the current known information and without allowing for inference, are you able to completely and accurately respond to the question Overarching question?

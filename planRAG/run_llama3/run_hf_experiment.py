@@ -1,6 +1,6 @@
 """
-运行本地HF模型 RPVM实验的脚本
-使用 wiki18 小语料库 + Llama 3 8B Instruct (本地HF)
+运行本地HF模型 planRAG 实验
+使用 wiki18 语料库 + Llama 3 8B Instruct (本地HF)
 """
 import os
 import sys
@@ -11,20 +11,20 @@ from pathlib import Path
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, project_root)
 
-# 添加RPVM目录到路径
-rpvm_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, rpvm_dir)
+# 添加 planRAG 目录到路径（run_llama3 的上一级）
+planrag_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, planrag_dir)
 
 from flashrag.config import Config
 from flashrag.utils import get_dataset
-from rpvm_pipeline import RPVMPipeline
+from planrag_pipeline import PlanRAGPipeline
 
 
 def run_hf_experiment(args):
-    """运行本地HF模型 RPVM实验"""
+    """运行本地HF模型 planRAG 实验"""
 
     # 设置保存标识
-    save_note = f"rpvm_llama3_hf_{args.split}"
+    save_note = f"planrag_llama3_hf_{args.split}"
 
     # 配置参数覆盖
     config_dict = {
@@ -34,45 +34,43 @@ def run_hf_experiment(args):
     }
 
     # 加载配置
-    config_file_path = os.path.join(os.path.dirname(__file__), "rpvm_hf_config.yaml")
+    config_file_path = os.path.join(os.path.dirname(__file__), "planrag_hf_config.yaml")
     config = Config(config_file_path=config_file_path, config_dict=config_dict)
 
-    # 修正路径为绝对路径
-    rpvm_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # 修正路径为绝对路径（run_llama3 的上一级）
+    planrag_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     if 'data_dir' in config and not os.path.isabs(config['data_dir']):
-        config['data_dir'] = os.path.join(rpvm_root, config['data_dir'])
+        config['data_dir'] = os.path.normpath(os.path.join(planrag_root, config['data_dir']))
         print(f"数据集目录: {config['data_dir']}")
 
-    # 重新构建 dataset_path
     if 'dataset_path' in config:
         config['dataset_path'] = os.path.join(config['data_dir'], config['dataset_name'])
         print(f"数据集路径: {config['dataset_path']}")
 
     if 'index_path' in config and not os.path.isabs(config['index_path']):
-        config['index_path'] = os.path.join(rpvm_root, config['index_path'])
+        config['index_path'] = os.path.normpath(os.path.join(planrag_root, config['index_path']))
         print(f"索引路径: {config['index_path']}")
 
     if 'corpus_path' in config and not os.path.isabs(config['corpus_path']):
-        config['corpus_path'] = os.path.join(rpvm_root, config['corpus_path'])
+        config['corpus_path'] = os.path.normpath(os.path.join(planrag_root, config['corpus_path']))
         print(f"语料库路径: {config['corpus_path']}")
 
     if 'retrieval_model_path' in config and not os.path.isabs(config['retrieval_model_path']):
-        config['retrieval_model_path'] = os.path.join(rpvm_root, config['retrieval_model_path'])
+        config['retrieval_model_path'] = os.path.normpath(os.path.join(planrag_root, config['retrieval_model_path']))
         print(f"检索模型路径: {config['retrieval_model_path']}")
 
     if 'generator_model_path' in config and not os.path.isabs(config['generator_model_path']):
-        config['generator_model_path'] = os.path.join(rpvm_root, config['generator_model_path'])
+        config['generator_model_path'] = os.path.normpath(os.path.join(planrag_root, config['generator_model_path']))
         print(f"生成器模型路径: {config['generator_model_path']}")
 
     if 'save_dir' in config and not os.path.isabs(config['save_dir']):
-        config['save_dir'] = os.path.join(rpvm_root, config['save_dir'])
+        config['save_dir'] = os.path.normpath(os.path.join(planrag_root, config['save_dir']))
         print(f"输出目录: {config['save_dir']}")
 
-    # 打印生成器配置信息
+    # 打印配置信息
     print(f"生成器框架: {config['framework']}")
     print(f"生成器模型: {config['generator_model']}")
-    print(f"生成器模型路径: {config['generator_model_path']}")
 
     # 加载数据集
     print(f"加载数据集: {config['dataset_name']}, split: {args.split}")
@@ -93,7 +91,7 @@ def run_hf_experiment(args):
 
     print(f"原始数据集大小: {len(test_data)}")
 
-    # 如果指定了样本数量(用于测试)
+    # 如果指定了样本数量
     if args.num_samples and args.num_samples > 0:
         print(f"仅使用 {args.num_samples} 个样本进行测试")
         from flashrag.dataset import Dataset
@@ -102,9 +100,9 @@ def run_hf_experiment(args):
 
     print(f"最终数据集大小: {len(test_data)}")
 
-    # 创建RPVM Pipeline
+    # 创建 planRAG Pipeline
     print("正在初始化 planRAG Pipeline (使用本地 HF Llama 3)...")
-    pipeline = RPVMPipeline(config)
+    pipeline = PlanRAGPipeline(config)
 
     # 运行实验
     print("开始运行 planRAG 实验...")
@@ -117,7 +115,7 @@ def run_hf_experiment(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="运行本地HF模型 RPVM实验")
+    parser = argparse.ArgumentParser(description="运行本地HF模型 planRAG 实验")
 
     parser.add_argument(
         "--split",
@@ -130,7 +128,7 @@ def main():
     parser.add_argument(
         "--gpu_id",
         type=str,
-        default="1",
+        default="0",
         help="GPU ID (用于检索器和生成器)"
     )
 

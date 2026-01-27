@@ -1,317 +1,197 @@
-# PlanRAG 实验方法构建方案
+# ReSP with Planner-Guided Reasoning: Workflow & Prompt Templates
 
-## 1. 方法概述
+## 0. 全局变量定义 (Global Variables)
 
-### 1.1 核心思想
-在ReSP方法基础上增加两个模块：
-- **Planner模块**：生成多跳问题的全局规划蓝图
-- **Check模块**：检查规划完成度，辅助判断
+整个流程中流转的核心数据变量：
 
-### 1.2 整体流程
-
-```
-输入问题 Q
-    ↓
-Planner 生成全局规划 P (纯文本列表格式)
-    ↓
-进入迭代循环 (max_iter=3):
-    ├─ Retriever 检索 top-k 相关文档
-    ├─ Summarizer 双路摘要:
-    │   ├─ Global Evidence: 与主问题相关的证据摘要
-    │   └─ Local Pathway: 子问题+答案对
-    ├─ Checker: 检查规划完成度 → P_checked
-    └─ Judge: 输入=已知信息+P+P_checked → 判断/生成子问题
-    ↓
-Generator 生成最终答案
-```
+* **`{question}`**: 原始的多跳问题 (Overarching question)。
+* **`{plan}`**: 由 Planner 生成的当前规划蓝图（随 Checker 更新状态）。
+* **`{memory}`**: 当前累积的已知信息 (Combined memory queues: Global Evidence + Local QA)。
+* **`{docs}`**: Retriever 检索到的 Top-N 文档片段。
+* **`{sub_question}`**: Reasoner 生成的下一步检索子问题。
 
 ---
 
-## 2. 现有资源
+## 1. Planner 模块 (全局规划)
 
-### 2.1 已准备好的资源
-| 资源 | 路径 | 说明 |
-|------|------|------|
-| 数据集 | `method/datasets/2wikimultihopqa/` | dev.jsonl, train.jsonl |
-| 生成模型 | `method/llama3-8b-instruct/` | Llama3-8B-Instruct |
-| 检索模型 | `method/e5-base-v2/` | E5 嵌入模型 |
-| 索引 | `method/indexes/` | Wiki18 索引 |
+**功能**：在迭代开始前，生成整体的逻辑蓝图。
+**输入**：`{question}`
+**输出**：初始 `{plan}`
 
-### 2.2 已有参考文件
-- `method/ReSP.md` - ReSP论文核心内容
-- `method/ReSPprompt.md` - ReSP各模块prompt
-- `method/example.md` - PlanRAG具体例子
-- `method/experiments/plan_evaluation/` - Planner模块实验
+**Prompt Template:**
 
----
-
-## 3. 实验配置（参考ReSP论文5.2节）
-
-### 3.1 核心参数
-| 参数 | 值 | 说明 |
-|------|-----|------|
-| generator_model | Llama3-8B-instruct | 生成模型 |
-| retriever_model | E5-base-v2 | 检索模型 |
-| corpus | Wikipedia (2018, ~20M passages) | 检索语料 |
-| max_input_length | 12,000 | 模型最大输入长度 |
-| max_output_length | 200 | 模型最大输出长度 |
-| top_k | 5 | 检索文档数量 |
-| max_iter | 3 | 最大迭代次数 |
-| seed | 2024 | 随机种子 |
-
-### 3.2 迭代停止条件
-- 达到max_iter=3次迭代后，直接进入最终答案生成
-- 或在任意迭代中，Judge判断信息足够时提前停止
-
----
-
-## 4. 命令行参数设计
-
-### 4.1 运行参数
-```bash
-python run_plan_rag.py \
-    --split dev \          # 数据集划分: train/dev/test
-    --num_samples 5 \      # 测试样本数，None表示全部
-    --max_iter 3 \         # 最大迭代次数
-    --top_k 5 \            # 检索文档数量
-    --gpu_id 0 \           # GPU设备号
-    --output_dir method/outputs/plan_rag_$(date +%Y%m%d_%H%M%S)
-```
-
-### 4.2 配置优先级
-```
-命令行参数 > 配置文件 > 默认值
-```
-
----
-
-## 5. 文件与目录结构
-
-```
-method/
-├── plan_rag_pipeline.py       # PlanRAG Pipeline 实现
-├── plan_rag_config.yaml       # 基础配置文件
-├── run_plan_rag.py            # 运行入口脚本
-├── plan_rag_design.md         # 本设计文档
-│
-├── prompts/                   # Prompt模板目录
-│   ├── planner_prompt.md      # Planner prompt
-│   ├── check_prompt.md        # Check prompt
-│   ├── judge_prompt.md        # Judge prompt (含plan扩展)
-│   ├── reasoner_prompt.md     # Reasoner prompt (含plan扩展)
-│   ├── summarizer_global.md   # Summarizer Global Evidence prompt
-│   └── summarizer_local.md    # Summarizer Local Pathway prompt
-│
-├── outputs/                   # 实验输出目录 (运行时生成)
-│   └── plan_rag_YYYYMMDD_HHMMSS/
-│       ├── config.yaml        # 本次实验配置
-│       ├── results.jsonl      # 预测结果
-│       ├── metrics.txt        # 评估指标
-│       └── logs/              # 训练日志
-│           └── plan_rag.log
-│
-└── (其他资源)
-    ├── datasets/
-    ├── llama3-8b-instruct/
-    ├── e5-base-v2/
-    └── indexes/
-```
-
----
-
-## 6. 模块详细设计
-
-### 6.1 Planner模块
-
-**作用**：生成多跳问题的全局处理规划。
-
-**输入**：主问题 Q
-
-**输出**：纯文本列表格式
-```
-**Plan**:
-1. First, identify the director of the film Polish-Russian War.
-2. Then, find out who the mother of that director is.
-```
-
-**Prompt文件**：`prompts/planner_prompt.md`
 ```markdown
 # Role
-You are a master of multi-hop task planning...
+You are a master of multi-hop task planning, capable of efficiently breaking down a multi-hop logical problem into step-by-step processing and planning.
+Do not generate explanations other than those related to planning.
+
+# Input
+- A multi-hop question.
 
 # Output Format
 **Plan**: A numbered list of search intents.
 
 # Examples
-...
+
+## Example 1 (Bridge Type)
+Question: Who is the mother of the director of film Polish-Russian War?
+Plan:
+1. First, identify the director of the film Polish-Russian War.
+2. Then, find out who the mother of that director is.
+
+## Example 2 (Comparison Type)
+Question: Which film came out first, Blind Shaft or The Mask Of Fu Manchu?
+Plan:
+1. Determine the release date of Blind Shaft.
+2. Determine the release date of The Mask of Fu Manchu.
+3. Compare the two release dates to identify which film was released earlier.
 
 # Now Begin
 Question: {question}
+
 ```
 
 ---
 
-### 6.2 Check模块
+## 2. ReSP Iteration Loop (推理迭代循环)
 
-**作用**：在每轮迭代结束时，检查规划完成度。
+### 2.a. Reasoner - Judge Sub-module (判断与终止控制)
 
-**输出格式**：
-```
-**Completed Steps**: [1, 2]
-**Remaining Steps**: [3]
-```
+**功能**：判断当前记忆是否足以回答原始问题。**此处加入了 `{plan}` 作为辅助上下文。**
+**输入**：`{question}`, `{memory}`, `{plan}`
+**输出**：Yes / No
 
-**Prompt文件**：`prompts/check_prompt.md`
-```markdown
-# Task
-Based on the information collected, check which planning steps have been completed.
+**Prompt Template:**
 
-# Original Question
-{question}
+```text
+Judging based solely on the current known information and the guidance of the global plan, without allowing for inference, are you able to completely and accurately respond to the question "{question}"?
 
-# Global Plan
+[Global Plan]:
 {plan}
 
-# Information Collected (Global Evidence + Local Pathway)
-{combined_memory}
+[Known information]:
+{memory}
 
-# Instructions
-Review the information collected and determine which plan steps have been COMPLETED.
+If you can, please reply with "Yes" directly; if you cannot and need more information, please reply with "No" directly.
 
-Output Format:
-**Completed Steps**: [step numbers]
-**Remaining Steps**: [step numbers]
-
-# Check Result:
 ```
 
----
+*(Logic: If Output == "Yes" -> Go to Generator; If Output == "No" -> Continue to Reasoner)*
 
-### 6.3 扩展的Judge模块
+### 2.b. Reasoner - Thought Sub-module (子问题生成)
 
-**修改策略**：简单扩展，将确认后的plans作为额外输入。
+**功能**：基于差距分析生成下一个检索意图。
+**输入**：`{question}`, `{memory}`
+**输出**：`{sub_question}`
 
-**Prompt文件**：`prompts/judge_prompt.md`
-```markdown
-Judging based solely on the current known information and without allowing for inference,
-are you able to completely and accurately respond to the question {question}?
+**Prompt Template:**
 
-Known information: {combined_memory}
+```text
+You serve as an intelligent assistant, adept at facilitating users through complex, multi-hop reasoning across multiple documents. Please understand the information gap between the currently known information and the target problem.
 
-Global Plan: {plan}
-Plan Progress: {plan_progress}
+Your task is to generate one thought in the form of question for next retrieval step directly.
+DON’T generate the whole thoughts at once!
+DON’T generate thought which has been retrieved.
 
-If you can, please reply with "Yes" directly; if you cannot and need more information,
-please reply with "No" directly.
+[Known information]:
+{memory}
+
+[Target question]:
+{question}
+
+[YouThought]:
+
 ```
 
----
+*(注意：第一轮迭代时，默认 Judge 为 No，且不经过 Reasoner 生成，直接令 `{sub_question}` = `{question}`)*
 
-### 6.4 扩展的Reasoner模块
+### 2.c. Retriever (检索模块)
 
-**Prompt文件**：`prompts/reasoner_prompt.md`
-```markdown
-You serve as an intelligent assistant, adept at facilitating users through complex,
-multi-hop reasoning across multiple documents.
-Please understand the information gap between the currently known information and the
-target problem.
-Your task is to generate one thought in the form of question for next retrieval step
-directly. DON'T generate the whole thoughts at once!
-DON'T generate thought which has been retrieved.
+**功能**：获取外部知识。
+**输入**：`{sub_question}`
+**输出**：`{docs}` (Top-3 passages)
 
-[Known information]: {combined_memory}
-[Target question]: {question}
-[Global Plan]: {plan}
-[Plan Progress]: {plan_progress}
-[You Thought]:
-```
+**Action:** `Retriever({sub_question}) -> {docs}`
 
----
+### 2.d. Dual-Pathway Summarizer (双路记忆摘要)
 
-### 6.5 Summarizer模块（复用ReSP）
+**路径 1: Global Evidence Memory (全局证据)**
+**功能**：提取文档中支持回答原始问题 `{question}` 的证据。
+**输入**：`{question}`, `{docs}`
+**输出**：`{global_evidence}`
 
-**Global Evidence Prompt** (`prompts/summarizer_global.md`):
-```markdown
-Passages: {docs}
+**Prompt Template:**
 
-Your job is to act as a professional writer. You will write a good quality passage
-that can support the given prediction about the question only based on the information
-in the provided supporting passages. Now, let's start.
-After you write, please write [DONE] to indicate you are done.
+```text
+Passages:
+{docs}
+
+Your job is to act as a professional writer. You will write a good quality passage that can support the given prediction about the question only based on the information in the provided supporting passages. Now, let’s start. After you write, please write [DONE] to indicate you are done. Do not write a prefix (e.g., "Response:") while writing a passage.
 
 Question: {question}
 Passage:
+
 ```
 
-**Local Pathway Prompt** (`prompts/summarizer_local.md`):
-```markdown
-Judging based solely on the current known information and without allowing for inference,
-are you able to respond completely and accurately to the question {sub_question}?
-Known information: {combined_memory}
-If yes, please reply with "Yes", followed by an accurate response...
+**路径 2: Local Pathway (局部问答)**
+**功能**：直接回答子问题 `{sub_question}`。
+**输入**：`{sub_question}`, `{docs}`, `{memory}` (作为背景)
+**输出**：`{local_answer}`
+
+**Prompt Template:**
+
+```text
+Judging based solely on the current known information and without allowing for inference, are you able to respond completely and accurately to the question "{sub_question}"?
+
+[Known information]:
+{memory}
+
+Passages:
+{docs}
+
+If yes, please reply with "Yes", followed by an accurate response to the question "{sub_question}", without restating the question; if no, please reply with "No" directly.
+
 ```
+
+**更新记忆 (Memory Update):**
+`{memory} = {memory} + {global_evidence} + {local_answer}`
+
+### 2.e. Checker (规划状态更新)
+
+**功能**：根据 Local Pathway 得到的 `{local_answer}`，检查 `{plan}` 中哪一步已完成，并标记状态。
+**输入**：当前 `{plan}`, `{sub_question}`, `{local_answer}`
+**输出**：更新后的 `{plan}`
+
+*(Internal Logic/Prompt: Match the sub-question answered to the plan items and mark as "finished".)*
+
+**Example Update:**
+Original Plan:
+
+1. Identify the director...
+2. Find out where...
+
+Updated `{plan}`:
+
+1. Identify the director... (finished)
+2. Find out where...
 
 ---
 
-## 7. 数据结构设计
+## 3. Generator (最终回答)
 
-```python
-# 数据集扩展字段
-dataset.global_plan: List[str]                    # 每个问题的全局规划
-dataset.plan_history: List[List[Dict]]            # 每轮Check结果
-dataset.plan_status: List[List[str]]              # 每轮规划状态: ['pending', 'completed', ...]
-dataset.global_evidence_memory: List[List[str]]   # 全局证据记忆
-dataset.local_pathway_memory: List[List[Dict]]    # 局部路径记忆
-dataset.sub_questions: List[List[str]]            # 每轮子问题
+**功能**：当 Judge 返回 "Yes" 时，生成最终答案。
+**输入**：`{question}`, `{memory}`
+**输出**：Final Answer
 
-# 单个样本示例
-{
-    'id': '...',
-    'question': 'Who is the mother of the director of film The Fascist?',
-    'global_plan': '1. Identify the director of the film The Fascist.\n2. Find out where the director was born.',
-    'plan_history': [
-        {'completed_steps': [1], 'remaining_steps': [2]},
-        {'completed_steps': [1, 2], 'remaining_steps': []}
-    ],
-    'global_evidence_memory': [
-        'The Fascist is a 1964 film directed by Luciano Salce...',
-        'Luciano Salce was born in Rome, Italy...'
-    ],
-    'local_pathway_memory': [
-        {'sub_question': 'Who directed The Fascist?', 'answer': 'Luciano Salce', 'can_answer': True}
-    ],
-    'sub_questions': ['Who directed The Fascist?', 'Where was Luciano Salce born?']
-}
+**Prompt Template:**
+
+```text
+Answer the question based on the given reference.
+Only give me the answer and do not output any other words.
+
+The following are given reference:
+{memory}
+
+Question: {question}
+
 ```
-
----
-
-## 8. 实现步骤
-
-### Phase 1: 实现ReSP基础
-1. 实现Retriever检索（复用FlashRAG框架）
-2. 实现双路Summarizer（Global Evidence + Local Pathway）
-3. 实现Judge/Reasoner循环
-4. 实现Generator输出
-
-### Phase 2: 集成PlanRAG
-1. 集成Planner模块（加载prompts/planner_prompt.md）
-2. 集成Check模块（加载prompts/check_prompt.md）
-3. 扩展Judge/Reasoner prompt（加载扩展后的prompt）
-4. 端到端测试
-
-### Phase 3: 实验验证
-1. 在2WikiMultiHopQA验证
-2. 在HotpotQA验证
-3. 消融实验（Planner影响、Check影响）
-
----
-
-
-## 9. 参考资料
-
-- ReSP论文：`method/ReSP.md`
-- ReSP Prompt：`method/ReSPprompt.md`
-- Planner实验：`method/experiments/plan_evaluation/`
-- 示例：`method/example.md`
-- FlashRAG框架：`/home/algroup/lsw/planRAG/flashrag/`
