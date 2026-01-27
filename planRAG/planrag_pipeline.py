@@ -161,7 +161,11 @@ class PlanRAGPipeline(BasicPipeline):
         # ==================== Step 2: ReSP Iteration Loop ====================
         for iter_idx in range(self.max_iter):
             # 2.a. Reasoner - Judge
-            judge_result = self._reasoner_judge(question, plan, memory)
+            # 优化1: 跳过第一轮Judge判断，直接进行信息收集
+            if iter_idx == 0:
+                judge_result = "No"  # 第一轮强制进入信息收集阶段
+            else:
+                judge_result = self._reasoner_judge(question, plan, memory)
 
             if judge_result.upper() == "YES":
                 # 记忆充足，生成最终答案
@@ -192,17 +196,15 @@ class PlanRAGPipeline(BasicPipeline):
             # 路径 1: Global Evidence Memory
             global_evidence = self._summarizer_global_evidence(question, docs_text)
 
-            # 路径 2: Local Pathway
-            local_answer = self._summarizer_local_answer(sub_question, memory, docs_text)
+            # 路径 2: Local Pathway (优化3: 使用 global_evidence + memory，不用原始 docs)
+            local_answer = self._summarizer_local_answer(sub_question, global_evidence, memory)
             # 解析 local_answer，提取 Yes/No 和答案
             can_answer, local_answer_text = self._parse_local_answer(local_answer)
 
             # 更新记忆
             old_memory = memory
-            if can_answer:
-                memory = self._update_memory(memory, global_evidence, local_answer_text)
-            else:
-                memory = self._update_memory(memory, global_evidence, "")
+            # 优化2: 传入 sub_question，如果没答案 local_answer_text 为空，会被保存为 "No"
+            memory = self._update_memory(memory, global_evidence, sub_question, local_answer_text if can_answer else "")
 
             # 2.e. Checker - 更新 plan 状态
             plan = self._checker_update_plan(plan, sub_question, local_answer_text)
@@ -343,19 +345,19 @@ class PlanRAGPipeline(BasicPipeline):
 
         return response.strip()
 
-    def _summarizer_local_answer(self, sub_question: str, memory: str, docs: str) -> str:
+    def _summarizer_local_answer(self, sub_question: str, global_evidence: str, memory: str) -> str:
         """
         Local Pathway: 直接回答子问题
 
         Args:
             sub_question: 子问题
+            global_evidence: 全局证据（精炼后的知识）
             memory: 当前记忆（作为背景）
-            docs: 检索到的文档
 
         Returns:
             包含 Yes/No 和答案的响应
         """
-        prompt = self.prompt_loader.get_summarizer_local_answer_prompt(sub_question, memory, docs)
+        prompt = self.prompt_loader.get_summarizer_local_answer_prompt(sub_question, global_evidence, memory)
 
         response = self._call_generator(
             prompt=prompt,
@@ -381,14 +383,15 @@ class PlanRAGPipeline(BasicPipeline):
         else:
             return False, ""
 
-    def _update_memory(self, memory: str, global_evidence: str, local_answer: str) -> str:
+    def _update_memory(self, memory: str, global_evidence: str, sub_question: str, local_answer: str) -> str:
         """
-        更新记忆：累积 global_evidence 和 local_answer
+        更新记忆：累积 global_evidence 和 sub_question + local_answer 对
 
         Args:
             memory: 已有记忆
             global_evidence: 全局证据
-            local_answer: 局部答案
+            sub_question: 子问题
+            local_answer: 局部答案（如果没答案是 "No"）
 
         Returns:
             更新后的记忆
@@ -398,8 +401,14 @@ class PlanRAGPipeline(BasicPipeline):
         if global_evidence:
             new_parts.append(f"[Global Evidence]: {global_evidence}")
 
-        if local_answer:
-            new_parts.append(f"[Local Answer]: {local_answer}")
+        # 优化2: 保存子问题和答案对
+        if sub_question:
+            new_parts.append(f"[Sub-Question]: {sub_question}")
+            # 如果没答案，保存 "No"
+            if local_answer:
+                new_parts.append(f"[Local Answer]: {local_answer}")
+            else:
+                new_parts.append(f"[Local Answer]: No")
 
         if not new_parts:
             return memory

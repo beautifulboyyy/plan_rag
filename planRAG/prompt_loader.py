@@ -88,9 +88,9 @@ class PromptLoader:
         """获取 Global Evidence Memory 模块的 prompt"""
         return self.get('summarizer_global_evidence', question=question, docs=docs)
 
-    def get_summarizer_local_answer_prompt(self, sub_question: str, memory: str, docs: str) -> str:
+    def get_summarizer_local_answer_prompt(self, sub_question: str, global_evidence: str, memory: str) -> str:
         """获取 Local Pathway 模块的 prompt"""
-        return self.get('summarizer_local_answer', sub_question=sub_question, memory=memory, docs=docs)
+        return self.get('summarizer_local_answer', sub_question=sub_question, global_evidence=global_evidence, memory=memory)
 
     def get_checker_prompt(self, plan: str, sub_question: str, local_answer: str) -> str:
         """获取 Checker 模块的 prompt"""
