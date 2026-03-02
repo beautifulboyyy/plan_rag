@@ -1,0 +1,27 @@
+{
+  "question": "Where was the director of film Ronnie Rocket born?",
+  "final_answer": "Missoula, Montana",
+  "plan": "Plan:\n1. Identify the director of the film Ronnie Rocket.(finished)\n2. Find the birthplace of that director.(finished)",
+  "final_memory": "[Global Evidence]: The information provided does not mention the birthplace of the director of film Ronnie Rocket, which is David Lynch.\n[Sub-Question]: Where was the director of film Ronnie Rocket born?\n[Local Answer]: Missoula, Montana",
+  "iterations": [
+    {
+      "iteration": 1,
+      "phase": "ReSP",
+      "judge_result": "NO",
+      "sub_question": "Where was the director of film Ronnie Rocket born?",
+      "docs_retrieved": 3,
+      "global_evidence": "The information provided does not mention the birthplace of the director of film Ronnie Rocket, which is David Lynch.",
+      "local_answer": "Missoula, Montana",
+      "can_answer": true,
+      "plan_updated": "Plan:\n1. Identify the director of the film Ronnie Rocket.(finished)\n2. Find the birthplace of that director.(finished)",
+      "memory_updated": true
+    },
+    {
+      "iteration": 2,
+      "phase": "Judge",
+      "judge_result": "YES",
+      "final_answer": "Missoula, Montana"
+    }
+  ],
+  "total_retrievals": 1
+}

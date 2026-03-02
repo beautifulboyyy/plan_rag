@@ -1,0 +1,84 @@
+{
+  "question": "Are North Marion High School (Oregon) and Seoul High School both located in the same country?",
+  "total_retrievals": 3,
+  "retrieval_log": [
+    {
+      "retrieval_id": 1,
+      "iteration": 1,
+      "query": "Are North Marion High School (Oregon) and Seoul High School both located in the same country?",
+      "num_results": 3,
+      "documents": [
+        {
+          "contents": "\"North Marion High School (Oregon)\"\nNorth Marion High School (Oregon) North Marion High School is a public high school in Aurora, Oregon, United States. The school is part of the North Marion School District with all four schools being located on the same campus. The school draws students from the cities of Aurora, Hubbard, and Donald as well as the communities of Broadacres and Butteville. The school earned a 4 (out of 5) in its report card grading for the 2013-2014 school year, meaning more than 70 percent of students met or exceeded standards on the Oregon Assessment of Knowledge and Skills. North Marion High",
+          "title": "",
+          "id": "12262984",
+          "score": 0.8232169151306152
+        },
+        {
+          "contents": "\"North Marion School District\"\nis Allison Hunt. North Marion School District North Marion School District is a public school district in Marion County, Oregon, United States that serves the cities of Aurora, Donald, and Hubbard and the communities of Broadacres and Butteville. There are about 1983 students enrolled in the district's four schools, which are all located on a single campus in Aurora. The superintendent is Ginger Redlinger. In the 2009 school year, the district had 30 students classified as homeless by the Department of Education, or 1.6% of students in the district. As of 2018, North Marion High School has an enrollment of",
+          "title": "",
+          "id": "20000245",
+          "score": 0.8152658343315125
+        },
+        {
+          "contents": "\"North Marion School District\"\nNorth Marion School District North Marion School District is a public school district in Marion County, Oregon, United States that serves the cities of Aurora, Donald, and Hubbard and the communities of Broadacres and Butteville. There are about 1983 students enrolled in the district's four schools, which are all located on a single campus in Aurora. The superintendent is Ginger Redlinger. In the 2009 school year, the district had 30 students classified as homeless by the Department of Education, or 1.6% of students in the district. As of 2018, North Marion High School has an enrollment of 617 students. The",
+          "title": "",
+          "id": "20000243",
+          "score": 0.8151310682296753
+        }
+      ]
+    },
+    {
+      "retrieval_id": 2,
+      "iteration": 2,
+      "query": "What is the country where North Marion High School (Oregon) is located?",
+      "num_results": 3,
+      "documents": [
+        {
+          "contents": "\"North Marion High School (Oregon)\"\nNorth Marion High School (Oregon) North Marion High School is a public high school in Aurora, Oregon, United States. The school is part of the North Marion School District with all four schools being located on the same campus. The school draws students from the cities of Aurora, Hubbard, and Donald as well as the communities of Broadacres and Butteville. The school earned a 4 (out of 5) in its report card grading for the 2013-2014 school year, meaning more than 70 percent of students met or exceeded standards on the Oregon Assessment of Knowledge and Skills. North Marion High",
+          "title": "",
+          "id": "12262984",
+          "score": 0.8506280183792114
+        },
+        {
+          "contents": "\"North Marion School District\"\nNorth Marion School District North Marion School District is a public school district in Marion County, Oregon, United States that serves the cities of Aurora, Donald, and Hubbard and the communities of Broadacres and Butteville. There are about 1983 students enrolled in the district's four schools, which are all located on a single campus in Aurora. The superintendent is Ginger Redlinger. In the 2009 school year, the district had 30 students classified as homeless by the Department of Education, or 1.6% of students in the district. As of 2018, North Marion High School has an enrollment of 617 students. The",
+          "title": "",
+          "id": "20000243",
+          "score": 0.8393564820289612
+        },
+        {
+          "contents": "\"North Marion School District\"\nis Allison Hunt. North Marion School District North Marion School District is a public school district in Marion County, Oregon, United States that serves the cities of Aurora, Donald, and Hubbard and the communities of Broadacres and Butteville. There are about 1983 students enrolled in the district's four schools, which are all located on a single campus in Aurora. The superintendent is Ginger Redlinger. In the 2009 school year, the district had 30 students classified as homeless by the Department of Education, or 1.6% of students in the district. As of 2018, North Marion High School has an enrollment of",
+          "title": "",
+          "id": "20000245",
+          "score": 0.8390953540802002
+        }
+      ]
+    },
+    {
+      "retrieval_id": 3,
+      "iteration": 3,
+      "query": "What is the location of Seoul High School?",
+      "num_results": 3,
+      "documents": [
+        {
+          "contents": "\"Seoul Global High School\"\nSeoul Global High School Seoul Global High School (or SGHS, also known as) is a domestic-international public college preparatory school situated in Jongno-District, Seoul, South Korea[1] offering a Korean Curriculum. Seoul Global High School first opened its doors to students in March 2008 and has classes from 10th to 12th grade. Conveniently located in the Jongno District (part of the metropolitan area in Seoul), SGHS is about ten minutes of the Hyehwa Station(Seoul Subway Line 4). The school provides the dormitory life and day-school. The Western Association of Schools and Colleges (WASC, Western Association of Schools and Colleges), based in",
+          "title": "",
+          "id": "8834359",
+          "score": 0.8690263032913208
+        },
+        {
+          "contents": "\"Seoul Global High School\"\nCalifornia, accredited Seoul Global High School for a two-year term on September 1, 2015. Following this temporary accreditation, it has gained 5-year accreditation in July 2017. As a condition of attending the school, a student is required to live within Seoul and have graduated from middle schools in Seoul or have more than 9 years of credit from foreign schools. Seoul Global High School Seoul Global High School (or SGHS, also known as) is a domestic-international public college preparatory school situated in Jongno-District, Seoul, South Korea[1] offering a Korean Curriculum. Seoul Global High School first opened its doors to students",
+          "title": "",
+          "id": "8834360",
+          "score": 0.8619779348373413
+        },
+        {
+          "contents": "\"Seoul Arts High School\"\nSeoul Arts High School Seoul Arts High School (Hangul: 서울예술고등학교), also known by the abbreviation \"\"Yego\"\" (Hangul: 예고) is a private high school located in Pyeongchang-dong, Jongno-gu, Seoul. Seoul Arts High School was founded on March 21, 1953 as \"\"Ewha Arts High School\"\" by the Yooha School Foundation, which was later renamed Ewha School Foundation and is the same foundation that operates Ewha Girls' High School and its other satellite schools. The name was changed later that year to reflect the school's coeducational status. Originally a government-aided school, it was granted autonomous (private) status, effective from the 2003-04 academic year.",
+          "title": "",
+          "id": "20167785",
+          "score": 0.857916533946991
+        }
+      ]
+    }
+  ]
+}
