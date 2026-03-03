@@ -1,9 +1,9 @@
 # ========== 基本设置 ==========
-data_dir: "datasets"
-save_dir: "output/planrag_hf_experiments"
+data_dir: "planRAG/datasets"
+save_dir: "ReSP/output/resp_hf_experiments"
 seed: 2024
 save_intermediate_data: True
-save_note: "planrag_llama3_hf"
+save_note: "resp_llama3_hf"
 gpu_id: "0"
 
 # ========== 数据集设置 ==========
@@ -12,9 +12,9 @@ split: ["dev"]
 
 # ========== 检索器设置 (E5) ==========
 retrieval_method: "e5"
-retrieval_model_path: "e5-base-v2"
-index_path: "indexes/wiki18_100w_index_sq8/e5_SQ8.index"
-corpus_path: "indexes/wiki18_100w.jsonl"
+retrieval_model_path: "planRAG/e5-base-v2"
+index_path: "planRAG/indexes/wiki18_100w_index_sq8/e5_SQ8.index"
+corpus_path: "planRAG/indexes/wiki18_100w.jsonl"
 retrieval_topk: 1
 retrieval_batch_size: 32
 retrieval_use_fp16: True
@@ -25,7 +25,7 @@ use_retrieval_cache: False
 # ========== 生成器设置 (本地 HF/Llama 3) ==========
 framework: "hf"
 generator_model: "llama3-8b-instruct"
-generator_model_path: "llama3-8b-instruct"
+generator_model_path: "planRAG/llama3-8b-instruct"
 generator_max_input_len: 12000
 generator_batch_size: 1
 generation_params:
@@ -34,11 +34,10 @@ generation_params:
   top_p: 0.9
   do_sample: True
 
-# ========== planRAG 特定参数 ==========
-planrag_config:
+# ========== ReSP 特定参数 ==========
+resp_config:
   max_iter: 3
   retrieval_topk: 3
-  planner_temperature: 0.7
   reasoner_temperature: 0.1
   generator_temperature: 0.5
 

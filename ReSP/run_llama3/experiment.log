@@ -6,7 +6,7 @@ nohup: ignoring input
 语料库路径: /home/algroup/lsw/planrag/planRAG/indexes/wiki18_100w.jsonl
 检索模型路径: /home/algroup/lsw/planrag/planRAG/e5-base-v2
 生成器模型路径: /home/algroup/lsw/planrag/planRAG/llama3-8b-instruct
-输出目录: /home/algroup/lsw/planrag/planRAG/output/planrag_hf_experiments/2wikimultihopqa_2026_03_03_18_38_planrag_llama3_hf_dev
+输出目录: /home/algroup/lsw/planrag/ReSP/output/resp_hf_experiments/2wikimultihopqa_2026_03_03_18_32_resp_llama3_hf_dev
 生成器框架: hf
 生成器模型: llama3-8b-instruct
 加载数据集: 2wikimultihopqa, split: dev
@@ -16,28 +16,19 @@ all_split 类型: <class 'dict'>
 仅使用 5 个样本进行测试
 Load data from provided data
 最终数据集大小: 5
-正在初始化 planRAG Pipeline (使用本地 HF Llama 3)...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.67s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.67s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:04<00:01,  1.64s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.14s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.33s/it]
-开始运行 planRAG 实验...
-planRAG Processing:   0%|          | 0/5 [00:00<?, ?it/s]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+正在初始化 ReSP Pipeline (使用本地 HF Llama 3)...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:06,  2.04s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:04<00:04,  2.02s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.99s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.39s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.61s/it]
+开始运行 ReSP 实验...
+ReSP Processing:   0%|          | 0/5 [00:00<?, ?it/s]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+ReSP Processing:  20%|██        | 1/5 [00:14<00:57, 14.45s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-planRAG Processing:  20%|██        | 1/5 [00:21<01:27, 21.97s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+ReSP Processing:  40%|████      | 2/5 [00:31<00:47, 15.99s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-planRAG Processing:  40%|████      | 2/5 [00:42<01:03, 21.16s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-planRAG Processing:  60%|██████    | 3/5 [01:01<00:39, 19.99s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+ReSP Processing:  60%|██████    | 3/5 [00:47<00:31, 15.85s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
@@ -49,10 +40,7 @@ Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-planRAG Processing:  80%|████████  | 4/5 [02:03<00:36, 36.52s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+ReSP Processing:  80%|████████  | 4/5 [01:43<00:31, 31.89s/it]Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
@@ -63,9 +51,10 @@ Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
 Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
-planRAG Processing: 100%|██████████| 5/5 [02:37<00:00, 35.79s/it]planRAG Processing: 100%|██████████| 5/5 [02:37<00:00, 31.50s/it]
+Setting `pad_token_id` to `eos_token_id`:128009 for open-end generation.
+ReSP Processing: 100%|██████████| 5/5 [02:32<00:00, 37.87s/it]ReSP Processing: 100%|██████████| 5/5 [02:32<00:00, 30.43s/it]
 Use `query: ` as retreival instruction
-Intermediate data saved to: /home/algroup/lsw/planrag/planRAG/output/planrag_hf_experiments/2wikimultihopqa_2026_03_03_18_38_planrag_llama3_hf_dev/intermediate_data.jsonl
+Intermediate data saved to: /home/algroup/lsw/planrag/ReSP/output/resp_hf_experiments/2wikimultihopqa_2026_03_03_18_32_resp_llama3_hf_dev/intermediate_data.json
 {'f1': 0.5, 'acc': 0.4}
 实验完成！
-结果保存到: /home/algroup/lsw/planrag/planRAG/output/planrag_hf_experiments/2wikimultihopqa_2026_03_03_18_38_planrag_llama3_hf_dev
+结果保存到: /home/algroup/lsw/planrag/ReSP/output/resp_hf_experiments/2wikimultihopqa_2026_03_03_18_32_resp_llama3_hf_dev
