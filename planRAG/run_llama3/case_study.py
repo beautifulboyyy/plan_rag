@@ -70,6 +70,7 @@ class CaseStudyRunner:
             "gpu_id": self.gpu_id,
             "save_note": "case_study",
             "save_intermediate_data": False,  # case study 不需要保存中间数据
+            "disable_save": True,  # 禁用配置文件保存
         }
 
         # 加载配置

@@ -2,12 +2,6 @@ Your task is to update the plan based on the sub-question and its answer. Mark t
 
 You must ONLY output the updated plan. Do NOT add any explanations, introductions, or other text.
 
-[Original Plan]:
-{plan}
-
-[Sub-question]: {sub_question}
-[Answer]: {local_answer}
-
 ## Examples
 
 **Example 1:**
@@ -55,3 +49,8 @@ Plan:
 2. Find the publication year of "ABC".
 3. Find the genre of "ABC".
 
+[Original Plan]:
+{plan}
+
+[Sub-question]: {sub_question}
+[Answer]: {local_answer}

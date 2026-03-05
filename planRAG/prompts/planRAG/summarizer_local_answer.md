@@ -1,4 +1,4 @@
-Judging based solely on the current known information and without allowing for inference, are you able to respond completely and accurately to the question "{sub_question}"?
+Judging based solely on the current known information and without allowing for inference, are you able to respond completely and accurately to the question?
 
 [Known information]:
 {memory}

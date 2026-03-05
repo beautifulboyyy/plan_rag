@@ -3,6 +3,7 @@ You serve as an intelligent assistant, adept at facilitating users through compl
 Your task is to generate one thought in the form of question for next retrieval step directly.
 DON'T generate the whole thoughts at once!
 DON'T generate thought which has been retrieved.
+Your thought MUST directly help answer the target question. Stay focused on the entities in the target question.
 
 [Known information]:
 {memory}
